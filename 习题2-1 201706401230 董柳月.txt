@@ -1,0 +1,28 @@
+#include <stdio>
+	int main()
+	{
+	int p,q,i=0,s,max=0,t,m;
+	scanf("%d",&p);
+	printf("请输入6个数字：");
+	a=new int[p];
+	for(q=0;q<p;q++)
+        scanf("%d",&a[q]);
+        sort(a,a+p);
+for(q=0;q<p;q++)
+	{
+	 if(i!=a[q])
+	            s=1;
+	        else
+	            s++;
+	        i=a[q];
+	        if(s>max)
+	        {
+	            t=m;
+	            max=s;
+	        }
+	    }
+	    printf("\n");
+	    printf("众数是：%d\n重数是：%d\n",t,max);
+	    return 0;    
+	}
+	
