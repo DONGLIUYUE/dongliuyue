@@ -1,7 +1,7 @@
 #include <stdio>
 	int main()
 	{
-	int p,q,i=0,s,max=0,t,m;
+	int p,q,i=0,s,max=0,t,a;
 	scanf("%d",&p);
 	printf("ÇëÊäÈë6¸öÊý×Ö£º");
 	a=new int[p];
@@ -17,7 +17,7 @@ for(q=0;q<p;q++)
 	        i=a[q];
 	        if(s>max)
 	        {
-	            t=m;
+	            t=i;
 	            max=s;
 	        }
 	    }
