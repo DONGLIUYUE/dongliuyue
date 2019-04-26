@@ -1,0 +1,36 @@
+#include<algorithm>
+#include<string.h>
+#include<iostream>
+using namespace std;
+int a[201], b[201];//定义两个数组对象
+int n;//定义n个作业
+int dp[202][10000];//dp[i][j] 表示前i个作业中A机器花j分钟的时候 B机器所花时间
+int main(int argc, char* argv[]) {
+cin >> n;
+memset(dp,0,sizeof(dp));
+for(int i=1; i<=n; i++) cin>>a[i];
+for(int i=1; i<=n; i++) cin>>b[i];
+int sum=0;
+for(int i=1; i<=n; i++) {
+sum+=a[i];
+for(int j=0; j<=sum; j++) {
+dp[i][j]=dp[i-1][j]+b[i];
+if(j>=a[i]) dp[i][j]=min(dp[i-1][j]+b[i],dp[i-1][j-a[i]]);
+}///定义F[i][j]为：表示完成i个作业且机器A花费j时间的条件下机器B所花费时间的最小值，那么F[i][j] = min{F[i - 1][j] + b[i], F[i - 1][j - a[i]]}。解释一下：
+
+假设前i - 1件已经被处理了，那么第 i 件作业由谁来处理呢？
+可以分两种情况：
+1：由机器A处理i，则机器B的时间为 F[i - 1][j - a[i]];
+2：由机器B处理i，则机器B的时间为 F[i - 1][j] + b[i];
+
+特殊情况：如果j < a[i],则不可能由机器A来完成，此时F[i][j] = F[i - 1][j] + b[i]；
+
+最终F[i][j] 选择 1 和 2 中较小的一个，即F[i][j] = min{F[i - 1][j] + b[i], F[i - 1][j - a[i]]}。
+
+}
+int ans=999999;
+//max(dp[n][i],i) 表示完成前n个作业A机器花i分钟 B机器花dp[n][i]分钟情况下，最迟完工时间
+for(int i=0; i<=sum; i++)ans=min(ans,max(dp[n][i],i));
+cout<<ans<<endl;
+return 0;
+}
