@@ -1,0 +1,23 @@
+#include<iostream>
+#include<fstream>
+#include<sstream>
+using namespace std;
+struct Job{
+int begin,end;//声明对象
+bool ok;
+};
+int manage(int n,Job *b){
+int count=n,ra=0,roomnum=0;//count表示还剩余几个活动未安排
+while(count>0){//当count=0就退出while循环
+for(int i=1;i<=n;i++){
+if((b[i].begin>ra)&&(b[i].ok==0)){//如果当前活动未安排并且和会场中已 有活动不冲突
+ra=b[i].end;//将当前活动加入该会场，并且更新会场的空闲时间
+b[i].ok=1;//标记该活动已被安排
+count--;//未安排的活动数减1
+}
+}
+ra=0;//把ra初始化，相当于重新再找一个房间
+roomnum++;//遍历一次，使用的会场数加1
+}
+return roomnum;//返回使用的会场数
+}
