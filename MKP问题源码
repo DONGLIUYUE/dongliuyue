@@ -1,0 +1,54 @@
+import xlrd
+import numpy as np
+import pandas as pd
+from numpy import *
+from pandas import  DataFrame                    #导入包
+data = pd.read_excel("C:\\Users\\Administrator\\Desktop\\data.xlsx")      #读取第excel表格中的数据
+
+v=data.columns
+price=np.array(v[:6])
+print(price)                  #读取价值
+
+data=np.array(data)
+
+print(data)               #读取的其他属性以及约束条件
+qy=data[:,:-1]
+
+print(qy)              #从data中读取属性       qy :属性
+
+cn=data[:,6:7]
+print(cn)             #读取约束条件         cn : 条件
+
+
+n=6              # 物品的个数
+m=10            #物品的属性
+qy=pd.DataFrame(qy)
+cn=pd.DataFrame(cn)
+
+                                # 格式转化，将array格式转换成dataFrame格式
+v=0                                                                  #定义一个常量v  并赋值给0  
+mv = 0
+                                                                    #定义一个数组 mv最大价值
+def bag(a):
+                                                                    # 背包中最多可以放下a个物品（物品最多6个，所以a<=6）
+    global mv,v                                               #在函数内定义全局变量 mv, v     
+    if a > n-1:
+        if v>mv:
+            mv=v                                                      # a于物品总数的时候，错误      
+    else:
+        p=0                       
+                                                   #定义一个P，令它的值等于约束条件中的值减去属性中的值:data2[0]- data[a]
+        p=(cn[0]- qy[a])>=0  
+        if p.all():                                           
+            cn[0]=cn[0]-qy[a]                       #约束条件减去属性，得到剩余的重量
+            v=v+price[a]                            #如果满足，加上根结点的价值
+            bag(a+1)                                 
+            v=v-price[a]                            #不满足条件时，减去根节点的价值，继续回溯
+            cn[0]=cn[0]+qy[a]                       #继续回溯，需要加上再加上根节点的价值，才能得到剩余的重量
+        bag(a+1)
+bag(0)
+                                               #  bag（0） 最大的值序号为0 
+                                              #价值[100.0, 600.0, 1200.0, 2400.0, 500.0, 2000.0]
+print("最大价值为%f元"% mv)                                    #打印输出最大价值
+    
+    
